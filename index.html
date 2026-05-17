@@ -110,6 +110,10 @@ hr{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .2s;z-index:999}
 .toast.show{opacity:1}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style/dist/xlsx.bundle.js"></script>
+<script>if(typeof XLSX==='undefined')document.write('<script src="https://unpkg.com/xlsx-js-style@1.6.0/dist/xlsx.bundle.js"><\/script>');</script>
+<script>if(typeof XLSX==='undefined')document.write('<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"><\/script>');</script>
+
 </head>
 <body>
 
@@ -120,8 +124,8 @@ hr{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
   </div>
   <div class="tabs">
     <button class="tab active" onclick="goScreen('main')" id="tab-main">Convocar</button>
-    <button class="tab" onclick="goScreen('config')" id="tab-config">Configuração</button>
     <button class="tab" onclick="goScreen('history')" id="tab-history">Histórico</button>
+    <button class="tab" onclick="goScreen('config')" id="tab-config">Configuração</button>
   </div>
 </div>
 
@@ -280,6 +284,7 @@ hr{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
       <div id="hist-list"><p class="empty">Nenhum registro ainda.</p></div>
     </div>
     <div class="actions">
+      <button class="btn-primary" onclick="exportarHistExcel()">Baixar em Excel</button>
       <button class="btn-danger" onclick="limparHistorico()">Apagar todo o histórico</button>
     </div>
   </div>
@@ -671,6 +676,7 @@ function renderCfgDFList(){
       <span class="df-name">${d.nome}</span>
       <div class="df-actions">
         <button class="btn-edit" onclick="editarDF(${i})">editar</button>
+        <button class="btn-edit" onclick="trocarTurmaDF(${i})">trocar turma</button>
         <button class="btn-danger" onclick="removeDF(${i})">remover</button>
       </div>
     </div>`).join('');
@@ -728,6 +734,36 @@ function addDF(){
   renderCfgDFList();renderCfgCircular();
   showToast('DF adicionado');
 }
+function trocarTurmaDF(idx){
+  const secao=document.getElementById('cfg-secao').value;
+  const turmaAtual=document.getElementById('cfg-turma').value;
+  const df=cfg[secao][turmaAtual][idx];
+  /* monta lista de turmas disponíveis da seção exceto a atual */
+  const turmasDisponiveis=(TURMAS_POR_SECAO[secao]||[]).filter(t=>t!==turmaAtual);
+  if(turmasDisponiveis.length===0){alert('Não há outras turmas nesta seção.');return;}
+  /* verifica limite de 4 por turma destino */
+  const opcoes=turmasDisponiveis.map((t,i)=>(i+1)+'. '+t+
+    (getDFs(secao,t).length>=4?' (CHEIO)':'')).join('\n');
+  const escolha=prompt('Para qual turma deseja mover '+df.nome+'?\n\n'+opcoes+'\n\nDigite o número:');
+  if(!escolha)return;
+  const idx2=parseInt(escolha)-1;
+  if(isNaN(idx2)||idx2<0||idx2>=turmasDisponiveis.length){alert('Opção inválida.');return;}
+  const turmaDestino=turmasDisponiveis[idx2];
+  if(getDFs(secao,turmaDestino).length>=4){alert('A turma '+turmaDestino+' já tem 4 desembargadores.');return;}
+  /* verifica conflito de posição no destino */
+  const posConflito=posEmUsoNaSecao(secao,parseInt(df.pos),turmaAtual,idx);
+  /* remove da turma atual */
+  cfg[secao][turmaAtual].splice(idx,1);
+  /* adiciona na turma destino */
+  if(!cfg[secao][turmaDestino])cfg[secao][turmaDestino]=[];
+  cfg[secao][turmaDestino].push({nome:df.nome,pos:df.pos});
+  cfg[secao][turmaDestino].sort((a,b)=>parseInt(a.pos)-parseInt(b.pos));
+  saveCfg();
+  renderCfgDFList();
+  renderCfgCircular();
+  showToast(df.nome+' movido para '+turmaDestino);
+}
+
 function removeDF(idx){
   const secao=document.getElementById('cfg-secao').value;
   const turma=document.getElementById('cfg-turma').value;
@@ -779,6 +815,38 @@ function removerHistItem(idx){
 function limparHistorico(){
   if(!confirm('Apagar todo o histórico?'))return;
   hist=[];saveHist();renderHist();showToast('Histórico apagado.');
+}
+
+function exportarHistExcel(){
+  if(typeof XLSX==='undefined'){
+    alert('Biblioteca Excel nao carregou.\nVerifique sua conexao com a internet e recarregue a pagina.');return;
+  }
+  if(hist.length===0){showToast('Historico vazio.');return;}
+  try{
+    function s(v){return v==null?'':String(v);}
+    function su(v){return s(v).toUpperCase();}
+    var rows=hist.map(function(h){return{
+      'Sessao Atual':s(h.dataAtual),
+      'Sessao Anterior':s(h.data),
+      'Secao':h.secao?h.secao+'a Secao':'',
+      'Turma':s(h.turma),
+      '1 Convocado':h.convocados&&h.convocados[0]?su(h.convocados[0]):'',
+      '2 Convocado':h.convocados&&h.convocados[1]?su(h.convocados[1]):'',
+      '1 Conv Sessao Anterior':h.anteriores&&h.anteriores[0]?su(h.anteriores[0]):'',
+      '2 Conv Sessao Anterior':h.anteriores&&h.anteriores[1]?su(h.anteriores[1]):'',
+      'Originarios':h.originarios&&h.originarios.length?h.originarios.map(function(n){return su(n);}).join(', '):''
+    };});
+    var wb=XLSX.utils.book_new();
+    var ws=XLSX.utils.json_to_sheet(rows);
+    ws['!cols']=[{wch:14},{wch:14},{wch:12},{wch:14},{wch:32},{wch:32},{wch:32},{wch:32},{wch:50}];
+    XLSX.utils.book_append_sheet(wb,ws,'HistoricoNTA');
+    var hoje=new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');
+    XLSX.writeFile(wb,'historico_nta_'+hoje+'.xlsx');
+    showToast('Excel gerado!');
+  }catch(err){
+    alert('Erro ao gerar Excel: '+err.message);
+    console.error('exportarHistExcel erro:',err);
+  }
 }
 </script>
 </body>
