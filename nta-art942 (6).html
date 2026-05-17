@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NTA — Convocação Art. 942 CPC</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#0d2137;--dark2:#1a3a5c;--dark3:#234e7a;
+  --mid:#2e6da4;--light:#5b9fd4;--pale:#c5dff0;--palest:#e8f3fb;
+  --bg:#f0f5fa;--surface:#ffffff;--surface2:#e8f3fb;
+  --border:rgba(26,58,92,0.15);--border-md:rgba(26,58,92,0.28);
+  --text:#0d2137;--text2:#2e5070;--text3:#6a90b0;
+  --danger:#8b2020;--danger-bg:#fdf0f0;--danger-border:rgba(139,32,32,0.25);
+  --warn:#7a4f00;--warn-bg:#fff8e6;--warn-border:rgba(122,79,0,0.25);
+  --success:#155724;--success-bg:#d4edda;
+  --radius:12px;--radius-sm:7px;
+  --shadow:0 2px 12px rgba(13,33,55,0.10);--shadow-lg:0 4px 24px rgba(13,33,55,0.16);
+}
+body{font-family:'Segoe UI','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0}
+.app-header{background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 60%,var(--dark3) 100%);padding:1.5rem 2rem 0;position:relative;overflow:hidden}
+.app-header::after{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.header-inner{max-width:760px;margin:0 auto}
+.header-title{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.header-sub{font-size:12px;color:var(--pale);margin-top:3px;font-family:'Courier New',monospace;letter-spacing:.04em}
+.tabs{display:flex;max-width:760px;margin:0 auto;padding-top:1.25rem}
+.tab{padding:10px 22px;font-size:13px;font-weight:600;background:none;border:none;border-radius:8px 8px 0 0;color:rgba(255,255,255,0.6);cursor:pointer;transition:all .18s}
+.tab:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.08)}
+.tab.active{background:var(--bg);color:var(--dark2)}
+.container{max-width:760px;margin:0 auto;padding:1.75rem 1.25rem 3rem}
+.screen{display:none}.screen.active{display:block}
+/* aviso topo */
+.aviso-topo{background:linear-gradient(135deg,var(--dark2),var(--dark3));border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;border-left:4px solid var(--light)}
+.aviso-topo p{font-size:13px;color:var(--pale);line-height:1.6}
+.aviso-topo strong{color:#fff}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.card-title{font-size:12px;font-weight:700;color:var(--dark2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.card-title::before{content:'';display:inline-block;width:3px;height:15px;background:var(--mid);border-radius:2px}
+.field{margin-bottom:14px}
+label.lbl{display:block;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px}
+select,input[type=text]{width:100%;padding:10px 14px;border:1.5px solid var(--border-md);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:14px;font-family:'Segoe UI',sans-serif;outline:none;transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none;text-transform:uppercase}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232e6da4' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+select:focus,input:focus{border-color:var(--mid);box-shadow:0 0 0 3px rgba(46,109,164,0.15)}
+input.no-upper{text-transform:none}
+.row{display:flex;gap:10px;align-items:flex-end}
+.row .field{flex:1}.row .field-xs{flex:0 0 80px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two-col{grid-template-columns:1fr}}
+button{padding:10px 20px;border:1.5px solid var(--border-md);border-radius:var(--radius-sm);background:var(--surface);color:var(--text2);font-size:13px;font-weight:600;font-family:'Segoe UI',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap}
+button:hover{background:var(--palest);border-color:var(--light)}
+button:active{transform:scale(0.97)}
+.btn-primary{background:var(--dark2);color:#fff;border-color:var(--dark2);box-shadow:0 2px 8px rgba(13,33,55,0.20)}
+.btn-primary:hover{background:var(--dark3);border-color:var(--dark3)}
+.btn-light{background:var(--palest);color:var(--dark2);border-color:var(--pale)}
+.btn-light:hover{background:var(--pale)}
+.btn-danger{color:var(--danger);border-color:var(--danger-border);font-size:12px;padding:6px 10px}
+.btn-danger:hover{background:var(--danger-bg)}
+.btn-edit{color:var(--mid);border-color:rgba(46,109,164,0.25);font-size:12px;padding:6px 10px}
+.btn-edit:hover{background:var(--palest)}
+.btn-save{color:var(--success);border-color:rgba(21,87,36,0.25);font-size:12px;padding:6px 10px}
+.btn-save:hover{background:var(--success-bg)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.info-strip{background:var(--palest);border:1px solid var(--pale);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:var(--text2);margin-bottom:1rem}
+.info-strip strong{color:var(--dark2)}
+.check-row{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:var(--radius-sm);transition:background .12s;cursor:pointer}
+.check-row:hover{background:var(--palest)}
+.check-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--dark2);cursor:pointer;flex-shrink:0}
+.check-row .cr-name{font-size:14px;color:var(--text);flex:1;text-transform:uppercase;font-weight:500}
+.check-row .cr-sub{font-size:11px;color:var(--text3);font-family:'Courier New',monospace}
+.check-row.disabled{opacity:.45;pointer-events:none}
+.check-row.impedido{background:var(--warn-bg)}
+.check-row.impedido .cr-name{color:var(--warn)}
+.df-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.df-row:last-child{border-bottom:none}
+.df-badge{background:var(--dark2);color:#fff;font-size:11px;font-family:'Courier New',monospace;font-weight:700;padding:3px 8px;border-radius:20px;min-width:32px;text-align:center;flex-shrink:0}
+.df-name{font-size:14px;color:var(--text);flex:1;font-weight:500;text-transform:uppercase}
+.df-turma{font-size:11px;color:var(--text3);font-family:'Courier New',monospace;flex-shrink:0}
+.df-actions{display:flex;gap:4px;flex-shrink:0}
+.edit-input{padding:5px 8px;font-size:13px;border:1.5px solid var(--mid);border-radius:var(--radius-sm);font-family:'Segoe UI',sans-serif;text-transform:uppercase}
+.edit-input-sm{width:60px;font-family:'Courier New',monospace;text-transform:none}
+.result-hero{background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 100%);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--shadow-lg)}
+.result-hero-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pale);margin-bottom:1rem}
+.result-df{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.result-df:last-child{border-bottom:none}
+.result-num{width:36px;height:36px;border-radius:50%;background:var(--light);color:var(--dark);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.result-df-name{font-size:17px;color:#fff;font-weight:600;text-transform:uppercase}
+.result-df-sub{font-size:12px;color:var(--pale);font-family:'Courier New',monospace;margin-top:2px}
+.ponteiro-box{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-sm);padding:10px 14px;margin-top:14px;font-size:12px;color:var(--pale);line-height:1.5}
+.ponteiro-box strong{color:#fff}
+.circ-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.circ-tag{font-size:12px;font-family:'Courier New',monospace;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);text-transform:uppercase}
+.circ-tag.highlighted{background:var(--dark2);border-color:var(--dark2);color:#fff;font-weight:700}
+.circ-tag.imp-ant{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn)}
+.circ-tag.ponteiro{background:var(--surface2);border-color:var(--pale);color:var(--text3);text-decoration:line-through}
+.hist-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.hist-row:last-child{border-bottom:none}
+.hist-date{font-family:'Courier New',monospace;font-size:11px;color:var(--text3);min-width:90px;padding-top:2px;flex-shrink:0}
+.hist-body{flex:1}
+.hist-turma{font-weight:700;color:var(--dark2);font-size:12px;margin-bottom:4px;text-transform:uppercase}
+.hist-line{color:var(--text2);font-size:13px;margin-bottom:2px}
+.hist-line span{font-size:11px;color:var(--text3);font-family:'Courier New',monospace}
+.slabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin:1.25rem 0 .5rem}
+.slabel:first-child{margin-top:0}
+.slabel-count{font-size:11px;color:var(--text3);font-family:'Courier New',monospace;margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0}
+.err{color:var(--danger);font-size:13px;margin-top:6px;font-family:'Courier New',monospace}
+.warn-box{background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:var(--warn);margin-bottom:10px;line-height:1.5}
+.empty{font-size:13px;color:var(--text3);padding:6px 0;font-style:italic}
+hr{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .2s;z-index:999}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-inner">
+    <div class="header-title">NTA — Convocação Art. 942 CPC</div>
+    <div class="header-sub">TRF1 · Alternância sequencial por antiguidade na seção</div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="goScreen('main')" id="tab-main">Convocar</button>
+    <button class="tab" onclick="goScreen('config')" id="tab-config">Configuração</button>
+    <button class="tab" onclick="goScreen('history')" id="tab-history">Histórico</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══════════ CONVOCAR ══════════ -->
+  <div id="screen-main" class="screen active">
+
+    <div class="aviso-topo">
+      <p><strong>Como usar:</strong> todas as informações preenchidas abaixo se referem à <strong>sessão anterior do NTA</strong>. Com base nesses dados, a ferramenta indicará quem deve ser convocado para a próxima sessão.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Composição da última sessão do NTA</div>
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Seção</label>
+          <select id="sel-secao" onchange="onSecaoChange()">
+            <option value="">Selecione...</option>
+            <option value="1">1ª Seção</option>
+            <option value="2">2ª Seção</option>
+            <option value="3">3ª Seção</option>
+            <option value="4">4ª Seção</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="lbl">Turma que julgou</label>
+          <select id="sel-turma" onchange="onTurmaChange()">
+            <option value="">—</option>
+          </select>
+        </div>
+      </div>
+      <div class="two-col" style="max-width:420px">
+        <div class="field">
+          <label class="lbl">Data da sessão anterior</label>
+          <input type="text" id="sel-data" placeholder="DD/MM/AAAA" maxlength="10"
+            oninput="maskDate(this)" class="no-upper">
+        </div>
+        <div class="field">
+          <label class="lbl">Data da sessão atual</label>
+          <input type="text" id="sel-data-atual" placeholder="DD/MM/AAAA" maxlength="10"
+            oninput="maskDate(this)" class="no-upper">
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-originarios" style="display:none">
+
+      <!-- originários -->
+      <div class="card">
+        <div id="info-turma" class="info-strip"></div>
+        <div class="slabel">Quem votou na sessão anterior (membros originários da turma)
+          <span class="slabel-count" id="orig-count"></span>
+        </div>
+        <div id="campos-originarios"></div>
+      </div>
+
+      <!-- lista circular -->
+      <div class="card">
+        <div class="slabel">Na sessão anterior do NTA, algum desembargador não participou por impedimento (férias, licença etc.)?
+          <span class="slabel-count" id="imp-count"></span>
+        </div>
+        <div id="warn-imp" class="warn-box" style="display:none"></div>
+        <div id="campos-circulares"></div>
+
+        <hr>
+
+        <!-- participantes anteriores para histórico -->
+        <div class="slabel">Quem foram os convocados da sessão anterior do NTA (para registro no histórico)</div>
+        <div class="two-col" style="margin-top:4px">
+          <div class="field">
+            <label class="lbl">1º convocado anterior</label>
+            <select id="hist-ant1" onchange="syncHistSelects(event)">
+              <option value="">—</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="lbl">2º convocado anterior <span style="font-size:10px;font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0">(define o ponteiro do rodízio)</span></label>
+            <select id="hist-ant2" onchange="syncHistSelects(event)">
+              <option value="">—</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ponteiro derivado do 2º convocado anterior — sem campo separado -->
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" onclick="calcular()">Calcular próximos convocados</button>
+        <button class="btn-light" onclick="limpar()">Limpar</button>
+      </div>
+    </div>
+
+    <div id="panel-resultado" style="display:none;margin-top:1.5rem"></div>
+    <div id="panel-registrar" style="display:none;margin-top:.75rem">
+      <button class="btn-primary" id="btn-registrar" onclick="registrarHistorico()">Registrar no historico</button>
+    </div>
+  </div>
+
+  <!-- ══════════ CONFIGURAÇÃO ══════════ -->
+  <div id="screen-config" class="screen">
+    <div class="card">
+      <div class="card-title">Selecionar turma para configurar</div>
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Seção</label>
+          <select id="cfg-secao" onchange="cfgSecaoChange()">
+            <option value="">Selecione...</option>
+            <option value="1">1ª Seção</option>
+            <option value="2">2ª Seção</option>
+            <option value="3">3ª Seção</option>
+            <option value="4">4ª Seção</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="lbl">Turma</label>
+          <select id="cfg-turma" onchange="cfgTurmaChange()">
+            <option value="">—</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div id="cfg-panel" style="display:none">
+      <div class="card">
+        <div class="card-title">Desembargadores da turma</div>
+        <div id="cfg-df-list"><p class="empty">Nenhum DF cadastrado.</p></div>
+        <hr>
+        <div class="slabel">Adicionar desembargador</div>
+        <div class="row">
+          <div class="field">
+            <label class="lbl">Nome</label>
+            <input type="text" id="cfg-nome" placeholder="NOME COMPLETO"
+              onkeydown="if(event.key==='Enter')addDF()">
+          </div>
+          <div class="field field-xs">
+            <label class="lbl">Pos. na seção</label>
+            <input type="text" id="cfg-pos" placeholder="ex: 3" class="no-upper"
+              onkeydown="if(event.key==='Enter')addDF()">
+          </div>
+          <button onclick="addDF()" style="margin-bottom:14px" class="btn-primary">+ Adicionar</button>
+        </div>
+        <div id="cfg-err" class="err"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Lista circular completa da seção</div>
+        <div id="cfg-circular-preview"><p class="empty">Configure os DFs para visualizar.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ HISTÓRICO ══════════ -->
+  <div id="screen-history" class="screen">
+    <div class="card">
+      <div class="card-title">Histórico de convocações registradas</div>
+      <div id="hist-list"><p class="empty">Nenhum registro ainda.</p></div>
+    </div>
+    <div class="actions">
+      <button class="btn-danger" onclick="limparHistorico()">Apagar todo o histórico</button>
+    </div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TURMAS_POR_SECAO={
+  '1':['1ª Turma','2ª Turma','9ª Turma'],
+  '2':['3ª Turma','4ª Turma','10ª Turma'],
+  '3':['5ª Turma','6ª Turma','11ª Turma','12ª Turma'],
+  '4':['7ª Turma','8ª Turma','13ª Turma']
+};
+const TURMA_ESPECIAL='9ª Turma';
+function getTamanho(t){return t===TURMA_ESPECIAL?4:3}
+function isEspecial(t){return t===TURMA_ESPECIAL}
+
+let cfg=JSON.parse(localStorage.getItem('nta_cfg')||'{}');
+let hist=JSON.parse(localStorage.getItem('nta_hist')||'[]');
+function saveCfg(){localStorage.setItem('nta_cfg',JSON.stringify(cfg))}
+function saveHist(){localStorage.setItem('nta_hist',JSON.stringify(hist))}
+
+let _ultimoCalculo=null;
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+function maskDate(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
+  if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
+  el.value=v.slice(0,10);
+}
+function goScreen(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');
+  document.getElementById('tab-'+s).classList.add('active');
+  if(s==='config')renderCfgCircular();
+  if(s==='history')renderHist();
+}
+function populateTurmas(secaoId,selEl){
+  selEl.innerHTML='<option value="">—</option>';
+  if(!secaoId)return;
+  (TURMAS_POR_SECAO[secaoId]||[]).forEach(t=>{
+    const o=document.createElement('option');
+    o.value=t;o.textContent=t;selEl.appendChild(o);
+  });
+}
+function getDFs(secao,turma){
+  return(cfg[secao]&&cfg[secao][turma])?[...cfg[secao][turma]]:[];
+}
+function getListaCircular(secao,turmaJulgou){
+  let todos=[];
+  (TURMAS_POR_SECAO[secao]||[]).forEach(t=>{
+    if(t===turmaJulgou)return;
+    getDFs(secao,t).forEach(df=>todos.push({...df,turma:t}));
+  });
+  todos.sort((a,b)=>parseInt(a.pos)-parseInt(b.pos));
+  return todos;
+}
+function posEmUsoNaSecao(secao,pos,excluirTurma,excluirIdx){
+  return(TURMAS_POR_SECAO[secao]||[]).some(t=>{
+    return(cfg[secao]&&cfg[secao][t]||[]).some((d,i)=>{
+      if(t===excluirTurma&&i===excluirIdx)return false;
+      return parseInt(d.pos)===pos;
+    });
+  });
+}
+
+/* ══ CONVOCAR ══ */
+function onSecaoChange(){
+  const s=document.getElementById('sel-secao').value;
+  populateTurmas(s,document.getElementById('sel-turma'));
+  document.getElementById('panel-originarios').style.display='none';
+  document.getElementById('panel-resultado').style.display='none';
+  document.getElementById('panel-registrar').style.display='none';
+  _ultimoCalculo=null;
+}
+
+function onTurmaChange(){
+  const secao=document.getElementById('sel-secao').value;
+  const turma=document.getElementById('sel-turma').value;
+  if(!turma){document.getElementById('panel-originarios').style.display='none';return;}
+  const dfs=getDFs(secao,turma);
+  const tam=getTamanho(turma);
+  document.getElementById('info-turma').innerHTML=
+    `<strong>${turma}</strong> &nbsp;·&nbsp; ${tam} membro${tam>1?'s':''} originário${tam>1?'s':''} &nbsp;·&nbsp; ${dfs.length} DF${dfs.length!==1?'s':''} cadastrado${dfs.length!==1?'s':''}`;
+  renderOriginarios(secao,turma,tam,dfs);
+  renderCirculares(secao,turma);
+  renderHistSelects(secao,turma);
+  document.getElementById('panel-originarios').style.display='block';
+  document.getElementById('panel-resultado').style.display='none';
+  document.getElementById('panel-registrar').style.display='none';
+  _ultimoCalculo=null;
+}
+
+function checkRow(id,nome,sub,checked,onchange){
+  return`<div class="check-row" onclick="document.getElementById('${id}').click()">
+    <input type="checkbox" id="${id}" value="${nome}" ${checked?'checked':''} onchange="${onchange}" onclick="event.stopPropagation()">
+    <span class="cr-name">${nome}</span>
+    <span class="cr-sub">${sub}</span>
+  </div>`;
+}
+
+function renderOriginarios(secao,turma,tam,dfs){
+  const c=document.getElementById('campos-originarios');
+  const countEl=document.getElementById('orig-count');
+  countEl.textContent=`(marque ${tam})`;
+  let html='';
+  const esp=isEspecial(turma);
+  if(esp){
+    html+=`<div class="field" style="margin-bottom:10px">
+      <label class="lbl">Relator do processo</label>
+      <select id="or-relator">
+        <option value="">Selecione o relator...</option>
+        ${dfs.map(d=>`<option value="${d.nome}">${d.nome}</option>`).join('')}
+      </select></div>
+    <div class="slabel" style="margin-top:0">Quem votou além do relator (marque até 2)</div>`;
+    dfs.forEach((d,i)=>html+=checkRow(`or-cb-${i}`,d.nome,`${d.pos}º`,false,'onOrigChange()'));
+  } else {
+    if(dfs.length===0){
+      html=`<p class="empty">Nenhum DF cadastrado nesta turma. Configure na aba Configuração.</p>`;
+    } else {
+      dfs.forEach((d,i)=>html+=checkRow(`or-cb-${i}`,d.nome,`${d.pos}º`,true,'onOrigChange()'));
+    }
+  }
+  c.innerHTML=html;
+}
+
+function onOrigChange(){
+  const turma=document.getElementById('sel-turma').value;
+  const tam=getTamanho(turma);
+  const cbs=document.querySelectorAll('#campos-originarios input[type=checkbox]');
+  const checked=[...cbs].filter(c=>c.checked).length;
+  cbs.forEach(cb=>{
+    const row=cb.closest('.check-row');
+    if(!cb.checked&&checked>=tam){row.classList.add('disabled');cb.disabled=true;}
+    else{row.classList.remove('disabled');cb.disabled=false;}
+  });
+  document.getElementById('orig-count').textContent=`(${checked}/${tam} marcados)`;
+}
+
+function renderCirculares(secao,turma){
+  const circ=getListaCircular(secao,turma);
+  const c=document.getElementById('campos-circulares');
+  document.getElementById('imp-count').textContent='(máx. 2)';
+  if(circ.length===0){c.innerHTML=`<p class="empty">Nenhum DF elegível nas demais turmas.</p>`;return;}
+  c.innerHTML=circ.map((d,i)=>
+    `<div class="check-row" id="circ-row-${i}" onclick="document.getElementById('imp-cb-${i}').click()">
+      <input type="checkbox" id="imp-cb-${i}" value="${i}" onchange="onImpChange()" onclick="event.stopPropagation()">
+      <span class="cr-name">${d.nome}</span>
+      <span class="cr-sub">${d.turma} · ${d.pos}º</span>
+    </div>`
+  ).join('');
+}
+
+function onImpChange(){
+  const cbs=document.querySelectorAll('#campos-circulares input[type=checkbox]');
+  const checked=[...cbs].filter(c=>c.checked).length;
+  const warnEl=document.getElementById('warn-imp');
+  cbs.forEach(cb=>{
+    const row=document.getElementById('circ-row-'+cb.value);
+    if(cb.checked)row.classList.add('impedido');
+    else row.classList.remove('impedido');
+    if(!cb.checked&&checked>=2){row.classList.add('disabled');cb.disabled=true;}
+    else{row.classList.remove('disabled');cb.disabled=false;}
+  });
+  document.getElementById('imp-count').textContent=
+    checked>0?`(${checked} marcado${checked>1?'s':''})`:'(máx. 2)';
+  if(checked>0){
+    warnEl.style.display='block';
+    warnEl.textContent='Os DFs impedidos serão convocados prioritariamente na próxima sessão, antes de continuar o rodízio normal. O ponteiro não avança além deles.';
+  } else {
+    warnEl.style.display='none';
+  }
+}
+
+function renderHistSelects(secao,turma){
+  const circ=getListaCircular(secao,turma);
+  const opts=`<option value="">—</option>`+
+    circ.map(d=>`<option value="${d.nome}" style="text-transform:uppercase">${d.nome.toUpperCase()} · ${d.turma}</option>`).join('');
+  document.getElementById('hist-ant1').innerHTML=opts;
+  document.getElementById('hist-ant2').innerHTML=opts;
+}
+
+function syncHistSelects(event){
+  const v1=document.getElementById('hist-ant1').value;
+  const v2=document.getElementById('hist-ant2').value;
+  if(v1&&v2&&v1===v2){
+    if(event.target.id==='hist-ant1')document.getElementById('hist-ant2').value='';
+    else document.getElementById('hist-ant1').value='';
+  }
+}
+
+
+
+/* ══ CALCULAR — nova lógica de impedimento ══
+   Impedidos na sessão anterior = devem ser convocados PRIMEIRO nesta sessão.
+   Depois dos impedidos, continua o rodízio normal a partir do ponteiro informado.
+*/
+function calcular(){
+  const secao=document.getElementById('sel-secao').value;
+  const turma=document.getElementById('sel-turma').value;
+  const data=document.getElementById('sel-data').value.trim();
+  const dataAtual=document.getElementById('sel-data-atual').value.trim();
+  if(!secao||!turma){alert('Selecione seção e turma.');return;}
+
+  const tam=getTamanho(turma);
+  const orCbs=[...document.querySelectorAll('#campos-originarios input[type=checkbox]:checked')];
+  if(orCbs.length!==tam&&!isEspecial(turma)){
+    alert(`Marque exatamente ${tam} participantes originários (${orCbs.length} marcados).`);return;
+  }
+  const originarios=orCbs.map(c=>c.value);
+
+  const circ=getListaCircular(secao,turma);
+  const panel=document.getElementById('panel-resultado');
+  if(circ.length<2){
+    panel.style.display='block';
+    panel.innerHTML=`<div class="card"><p class="err">Lista circular insuficiente (mínimo 2 DFs nas demais turmas).</p></div>`;
+    return;
+  }
+
+  /* impedidos da sessão anterior — são os primeiros a ser convocados */
+  const impIdxs=[...document.querySelectorAll('#campos-circulares input[type=checkbox]:checked')]
+    .map(c=>parseInt(c.value))
+    .sort((a,b)=>a-b); /* mantém ordem de antiguidade */
+
+  /* ponteiro: derivado do 2º convocado anterior (hist-ant2) */
+  const ant2Nome=document.getElementById('hist-ant2').value;
+  const circ2=circ; // já calculado acima
+  const ultimoIdx=ant2Nome?circ2.findIndex(d=>d.nome===ant2Nome):-1;
+
+  /* monta lista de convocados:
+     1º: impedidos da sessão anterior (por ordem de antiguidade)
+     2º: próximos no rodízio após o ponteiro, excluindo os impedidos já incluídos */
+  const proximos=[];
+
+  /* adiciona impedidos primeiro */
+  impIdxs.forEach(i=>{
+    if(proximos.length<2)proximos.push({...circ[i],idx:i,motivo:'impedido'});
+  });
+
+  /* se ainda faltam convocados, pega os próximos na fila */
+  if(proximos.length<2){
+    let cursor=(ultimoIdx+1)%circ.length;
+    let tentativas=0;
+    while(proximos.length<2&&tentativas<circ.length){
+      const jaIncluido=proximos.some(p=>p.idx===cursor);
+      const eImpedido=impIdxs.includes(cursor);
+      if(!jaIncluido&&!eImpedido){
+        proximos.push({...circ[cursor],idx:cursor,motivo:'rodizio'});
+      }
+      cursor=(cursor+1)%circ.length;
+      tentativas++;
+    }
+  }
+
+  if(proximos.length<2){
+    panel.style.display='block';
+    panel.innerHTML=`<div class="card"><p class="err">Não há DFs disponíveis suficientes para convocar.</p></div>`;
+    return;
+  }
+
+  /* ponteiro final = último dos convocados desta sessão */
+  const ponteiroFinal=proximos[proximos.length-1].idx;
+
+  const antNomes=[
+    document.getElementById('hist-ant1').value,
+    document.getElementById('hist-ant2').value
+  ].filter(Boolean);
+
+  _ultimoCalculo={secao,turma,data,dataAtual,originarios,proximos,antNomes,ponteiroFinal};
+
+  panel.style.display='block';
+  let html=`<div class="result-hero">
+    <div class="result-hero-title">Próximos a convocar — Art. 942 CPC</div>`;
+  proximos.forEach((d,i)=>{
+    const obs=d.motivo==='impedido'?' <span style="font-size:11px;opacity:.7">(estava impedido na sessão anterior)</span>':'';
+    html+=`<div class="result-df">
+      <div class="result-num">${i+1}</div>
+      <div>
+        <div class="result-df-name">${d.nome}${obs}</div>
+        <div class="result-df-sub">${d.turma} · Antiguidade na seção: ${d.pos}º</div>
+      </div></div>`;
+  });
+  const ponteiroNome=circ[ponteiroFinal]?circ[ponteiroFinal].nome:'—';
+  html+=`<div class="ponteiro-box">
+    Na próxima sessão, informe <strong>${ponteiroNome}</strong> como 2º convocado anterior.
+  </div></div>`;
+
+  html+=`<div class="card" style="margin-top:0">
+    <div class="card-title">Lista circular</div>
+    <div class="circ-wrap">`;
+  circ.forEach((d,i)=>{
+    const isConv=proximos.some(p=>p.idx===i);
+    const isImpAnt=impIdxs.includes(i)&&isConv;
+    const isPonteiro=i===ultimoIdx&&!isConv;
+    let cls='circ-tag',suffix='';
+    if(isConv&&isImpAnt){cls='circ-tag highlighted';suffix=' ✓ (impedido anterior)';}
+    else if(isConv){cls='circ-tag highlighted';suffix=' ✓';}
+    else if(isPonteiro){cls='circ-tag ponteiro';suffix=' (último anterior)';}
+    html+=`<span class="${cls}">${i+1}. ${d.nome}${suffix}</span>`;
+  });
+  html+=`</div></div>`;
+
+  panel.innerHTML=html;
+  document.getElementById('panel-registrar').style.display='block';
+  const btn=document.getElementById('btn-registrar');
+  btn.textContent='Registrar no historico';
+  btn.disabled=false;
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function registrarHistorico(){
+  if(!_ultimoCalculo){showToast('Nada a registrar.');return;}
+  const d=_ultimoCalculo;
+  /* bloquear mesma turma + mesma data atual */
+  if(d.dataAtual){
+    const duplicata=hist.some(h=>h.turma===d.turma&&h.dataAtual===d.dataAtual);
+    if(duplicata){
+      showToast('Já existe registro desta turma nesta data.');return;
+    }
+  }
+  hist.unshift({
+    ts:new Date().toISOString(),
+    data:d.data||'',
+    dataAtual:d.dataAtual||'',
+    secao:d.secao,
+    turma:d.turma,
+    originarios:d.originarios,
+    convocados:d.proximos.map(x=>x.nome),
+    anteriores:d.antNomes
+  });
+  saveHist();
+  showToast('Registrado no historico');
+  _ultimoCalculo=null;
+  const btn=document.getElementById('btn-registrar');
+  if(btn){btn.textContent='Registrado';btn.disabled=true;}
+}
+
+function limpar(){
+  const turma=document.getElementById('sel-turma').value;
+  document.querySelectorAll('#campos-originarios input[type=checkbox]').forEach(cb=>{
+    cb.disabled=false;
+    cb.closest('.check-row').classList.remove('disabled');
+    if(!isEspecial(turma))cb.checked=true;
+    else cb.checked=false;
+  });
+  document.querySelectorAll('#campos-circulares input[type=checkbox]').forEach(cb=>{
+    cb.checked=false;cb.disabled=false;
+    cb.closest('.check-row').classList.remove('impedido','disabled');
+  });
+  document.getElementById('imp-count').textContent='(máx. 2)';
+  document.getElementById('warn-imp').style.display='none';
+  document.getElementById('orig-count').textContent=`(marque ${getTamanho(turma)})`;
+  document.getElementById('hist-ant1').value='';
+  document.getElementById('sel-data-atual').value='';
+  document.getElementById('hist-ant2').value='';
+  document.getElementById('panel-resultado').style.display='none';
+  document.getElementById('panel-registrar').style.display='none';
+  _ultimoCalculo=null;
+}
+
+/* ══ CONFIGURAÇÃO ══ */
+function cfgSecaoChange(){
+  const s=document.getElementById('cfg-secao').value;
+  populateTurmas(s,document.getElementById('cfg-turma'));
+  document.getElementById('cfg-panel').style.display='none';
+}
+function cfgTurmaChange(){
+  const t=document.getElementById('cfg-turma').value;
+  if(!t){document.getElementById('cfg-panel').style.display='none';return;}
+  document.getElementById('cfg-panel').style.display='block';
+  renderCfgDFList();renderCfgCircular();
+}
+function renderCfgDFList(){
+  const secao=document.getElementById('cfg-secao').value;
+  const turma=document.getElementById('cfg-turma').value;
+  const dfs=getDFs(secao,turma);
+  const el=document.getElementById('cfg-df-list');
+  if(dfs.length===0){el.innerHTML='<p class="empty">Nenhum DF cadastrado.</p>';return;}
+  el.innerHTML=dfs.map((d,i)=>`
+    <div class="df-row" id="dfrow-${i}">
+      <span class="df-badge">${d.pos}º</span>
+      <span class="df-name">${d.nome}</span>
+      <div class="df-actions">
+        <button class="btn-edit" onclick="editarDF(${i})">editar</button>
+        <button class="btn-danger" onclick="removeDF(${i})">remover</button>
+      </div>
+    </div>`).join('');
+}
+function editarDF(idx){
+  const secao=document.getElementById('cfg-secao').value;
+  const turma=document.getElementById('cfg-turma').value;
+  const d=cfg[secao][turma][idx];
+  const row=document.getElementById('dfrow-'+idx);
+  row.innerHTML=`
+    <input class="edit-input edit-input-sm" type="text" id="edit-pos-${idx}" value="${d.pos}" placeholder="pos">
+    <input class="edit-input" type="text" id="edit-nome-${idx}" value="${d.nome}" placeholder="NOME" style="flex:1">
+    <div class="df-actions">
+      <button class="btn-save" onclick="salvarDF(${idx})">salvar</button>
+      <button class="btn-light" onclick="renderCfgDFList()" style="font-size:12px;padding:6px 10px">cancelar</button>
+    </div>`;
+  document.getElementById('edit-nome-'+idx).focus();
+  [document.getElementById('edit-pos-'+idx),document.getElementById('edit-nome-'+idx)]
+    .forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')salvarDF(idx)}));
+}
+function salvarDF(idx){
+  const secao=document.getElementById('cfg-secao').value;
+  const turma=document.getElementById('cfg-turma').value;
+  const novaPos=parseInt(document.getElementById('edit-pos-'+idx).value);
+  const novoNome=document.getElementById('edit-nome-'+idx).value.trim().toUpperCase();
+  const err=document.getElementById('cfg-err');
+  if(!novoNome){err.textContent='Informe o nome.';return;}
+  if(!novaPos||novaPos<1||isNaN(novaPos)){err.textContent='Posição inválida.';return;}
+  if(posEmUsoNaSecao(secao,novaPos,turma,idx)){err.textContent=`Posição ${novaPos}º já está em uso.`;return;}
+  err.textContent='';
+  cfg[secao][turma][idx]={nome:novoNome,pos:String(novaPos)};
+  cfg[secao][turma].sort((a,b)=>parseInt(a.pos)-parseInt(b.pos));
+  saveCfg();renderCfgDFList();renderCfgCircular();
+  showToast('DF atualizado');
+}
+function addDF(){
+  const secao=document.getElementById('cfg-secao').value;
+  const turma=document.getElementById('cfg-turma').value;
+  const nome=document.getElementById('cfg-nome').value.trim().toUpperCase();
+  const pos=parseInt(document.getElementById('cfg-pos').value.trim());
+  const err=document.getElementById('cfg-err');
+  if(!nome){err.textContent='Informe o nome do DF.';return;}
+  if(!pos||pos<1||isNaN(pos)){err.textContent='Informe uma posição válida (inteiro >= 1).';return;}
+  if(!cfg[secao])cfg[secao]={};
+  if(!cfg[secao][turma])cfg[secao][turma]=[];
+  if(cfg[secao][turma].length>=4){err.textContent='Limite de 4 desembargadores por turma atingido.';return;}
+  if(cfg[secao][turma].some(d=>d.nome===nome)){err.textContent='DF já cadastrado nesta turma.';return;}
+  if(posEmUsoNaSecao(secao,pos,null,-1)){err.textContent=`Posição ${pos}º já está em uso nesta seção.`;return;}
+  cfg[secao][turma].push({nome,pos:String(pos)});
+  cfg[secao][turma].sort((a,b)=>parseInt(a.pos)-parseInt(b.pos));
+  saveCfg();err.textContent='';
+  document.getElementById('cfg-nome').value='';
+  document.getElementById('cfg-pos').value='';
+  document.getElementById('cfg-nome').focus();
+  renderCfgDFList();renderCfgCircular();
+  showToast('DF adicionado');
+}
+function removeDF(idx){
+  const secao=document.getElementById('cfg-secao').value;
+  const turma=document.getElementById('cfg-turma').value;
+  const nome=cfg[secao][turma][idx].nome;
+  if(!confirm(`Remover ${nome}?`))return;
+  cfg[secao][turma].splice(idx,1);
+  saveCfg();renderCfgDFList();renderCfgCircular();
+}
+function renderCfgCircular(){
+  const secao=document.getElementById('cfg-secao').value;
+  const el=document.getElementById('cfg-circular-preview');
+  if(!el||!secao){if(el)el.innerHTML='<p class="empty">Selecione uma seção.</p>';return;}
+  let todos=[];
+  (TURMAS_POR_SECAO[secao]||[]).forEach(t=>getDFs(secao,t).forEach(df=>todos.push({...df,turma:t})));
+  todos.sort((a,b)=>parseInt(a.pos)-parseInt(b.pos));
+  if(todos.length===0){el.innerHTML='<p class="empty">Nenhum DF cadastrado nesta seção.</p>';return;}
+  el.innerHTML=todos.map((d,i)=>`
+    <div class="df-row">
+      <span class="df-badge">${i+1}</span>
+      <span class="df-name">${d.nome}</span>
+      <span class="df-turma">${d.turma} · pos. ${d.pos}º</span>
+    </div>`).join('');
+}
+
+/* ══ HISTÓRICO ══ */
+function renderHist(){
+  const el=document.getElementById('hist-list');
+  if(hist.length===0){el.innerHTML='<p class="empty">Nenhum registro ainda.</p>';return;}
+  el.innerHTML=hist.map((h,i)=>{
+    const dtAtual=h.dataAtual||'—';
+    const dtAnt=h.data||'—';
+    return`<div class="hist-row" id="hist-item-${i}">
+      <div class="hist-date">${dtAtual}</div>
+      <div class="hist-body">
+        <div class="hist-turma">${h.turma}</div>
+        <div class="hist-line">Convocados para ${dtAtual}: <strong>${h.convocados.map(n=>n.toUpperCase()).join(' / ')}</strong></div>
+        ${h.anteriores&&h.anteriores.length?`<div class="hist-line">Convocados na sessão anterior (${dtAnt}): <strong>${h.anteriores.map(n=>n.toUpperCase()).join(' / ')}</strong></div>`:''}
+        <div class="hist-line"><span>Originários: ${h.originarios&&h.originarios.length?h.originarios.map(n=>n.toUpperCase()).join(', '):'—'}</span></div>
+      </div>
+      <button class="btn-danger" onclick="removerHistItem(${i})" style="flex-shrink:0;align-self:flex-start;margin-top:2px">remover</button>
+    </div>`;
+  }).join('');
+}
+function removerHistItem(idx){
+  if(!confirm('Remover este registro?'))return;
+  hist.splice(idx,1);
+  saveHist();renderHist();
+}
+function limparHistorico(){
+  if(!confirm('Apagar todo o histórico?'))return;
+  hist=[];saveHist();renderHist();showToast('Histórico apagado.');
+}
+</script>
+</body>
+</html>
